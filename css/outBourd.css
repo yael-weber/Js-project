@@ -1,0 +1,330 @@
+.main-container {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    height: inherit;
+    width: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    box-sizing: border-box;
+    position: relative;
+    
+  }
+  
+  button {
+    outline: none;
+  }
+  
+  body {
+    font-family: 'Skranji', cursive;
+  }
+  
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  #usernameDisplay {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+    height: 50px;
+    border-radius: 25% / 50%;
+    background-color: #333;
+    color: #fff;
+    font-size: 24px;
+    line-height: 50px;
+    text-align: center;
+}
+  /* #rush-hour {
+    border: none; 
+    margin: 0 auto;
+    width: 30vw; 
+    max-width: 1000px; 
+  } */
+  
+  ul, ol {
+    /* list-style-type: none; */
+    display: flex;
+    width: 100%;
+    /* list-style-type: none; */
+    padding: 0; 
+    margin: 0; 
+    height: 10vh;
+  }
+  
+  li {
+    width: 10vw;
+    height: auto;
+  }
+
+  .outer-container{
+    background-color: #99a6aa;
+    border: 5px solid black;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box; /* כדי שהמסגרת לא תוסיף רוחב נוסף ללוח */
+    width: 100%;
+    height: auto; /* התאמה של הגובה לעמוד */
+    max-width: 100%; /* למקרה שבו המסך יהיה יותר רחב מ-100vw */
+    max-height: 100%; /* למקרה שבו המסך יהיה יותר גבוה מ-100vh */
+    transform: scale(1.1); /* קיטון ב-30% */
+
+  }
+/* 
+  .black-frame {
+    border: 4px solid black; עיצוב המסגרת עם קווים נוקשים שחורים בעובי 4 פיקסלים
+    box-sizing: border-box; כדי שהגודל של האלמנט לא ישתנה עקב הסגרגל של המסגרת
+} */
+  
+  .exit {
+    font-size: 25px;
+    color: #EA1821;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 2px 10px;
+    position: absolute;
+    top: 45%;
+    right: 29%;
+    z-index: 1;
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+  
+  #score{
+    left:3.8vw;
+    top:3.3vh;
+    color:darkblue;
+    font-family:'Berlin Sans FB';
+    font-size:3.8vh;
+    position:absolute;
+}
+  .move-counter {
+    position: absolute;
+    color: #e708a0;
+    font-size: 150%;
+    padding: 2px;
+    padding-left: 40%;
+    font-weight: bold; /* נוסיף עובי לטקסט */
+  }
+  
+  .red {
+    background-color: #EA1821;
+    border: none;
+  }
+  .green {
+    background-color: #88CC33;
+    border: none;
+  }
+  .yellow {
+    background-color: #FFFF46;
+    border: none;
+  }
+  .purple {
+    background-color: #8E1E9C;
+    border: none;
+  }
+  .blue {
+    background-color: #4545FF;
+    border: none;
+  }
+  .orange {
+    background-color: #FFAA00;
+    border: none;
+  }
+  .pink {
+    background-color: #f33f8d;
+    border: none;
+  }
+  .black {
+    background-color: #000000;
+    border: none;
+  }
+  .light-blue {
+    background-color: #1fbbf9;
+    border: none;
+  }
+  .dark-green {
+    background-color: #196928;
+    border: none;
+  }
+  .brown {
+    background-color: #543907;
+    border: none;
+  }
+  .grey {
+    background-color: #6c7a7f;
+    border: none;
+  }
+  .light-green {
+    background-color: #3cf5d0;
+    border: none;
+  }
+  .car:hover {
+    cursor: pointer;
+  }
+  
+  .car-body {
+    border: 2px solid white;
+  }
+  
+  .selected {
+    animation: pulse 1.2s infinite;
+  }
+  #ShowScore {
+    color: darkblue;
+    font-family: 'Berlin Sans FB';
+    font-size: 3vh;
+    animation-name: showScore;
+    animation-duration: 2.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes showScore
+{
+   35%{
+        color: rgba(0, 0, 0, 0.00);
+    }
+    100% {
+        top: -3vh;
+        color: rgba(0, 0, 0, 0.00);
+    }
+}
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .win-phrase {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    color: #7b44db;
+    font-size: 60px;
+    top: 150px;
+    left: 60px;
+    animation: fadetext 0.8s ease 0s 1 normal forwards;
+  }
+  
+  .show {
+    display: block;
+  }
+  
+  @keyframes fadetext {
+    0% { opacity: 0; transform: translateY(80px)}
+    95% { opacity: 1; transform: translateY(-10px)}
+    100%  { opacity: 1; transform: translateY(0px)}
+  }
+  
+  .levels-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+  }
+  
+  .levels {
+    background: #bfe4d4;
+    width: 380px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    font-size: 30px;
+    border: 3px solid rgb(53, 156, 92);
+  }
+  
+  .current-level {
+    color: green;
+  }
+  
+  .levels > * {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .reset-button, .scroll-button {
+    font-size: 30px;
+    background: #100f0f;
+    border-radius: 10px;
+    padding: 2px 10px;
+    position: absolute;
+    vertical-align: middle;
+    top: 170px;
+    left: -100px;
+    border: 3px solid rgb(6, 4, 4);
+  }
+  
+  .scroll-button {
+    top: 230px;
+    left: -145px;
+    font-size: 25px;
+  }
+  
+  .easy-button:hover, .medium-button:hover, .hard-button:hover, .reset-button:hover, .scroll-button:hover {
+    color: #EA1821;
+    cursor: pointer;
+  }
+  
+  .easy-button:active, .medium-button:active, .hard-button:active, .reset-button:active {
+    color: rgb(10, 7, 7);
+  }
+  
+  .disclaimer {
+    font-size: 15px;
+    margin: 5px;
+  }
+  
+  .disclaimer a {
+    color: blue;
+  }
+  #darkbackgroung_youWin {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.60);
+    z-index: 9;
+    display: none;
+}
+/* #playagain {
+    position: absolute;
+    color: gold;
+    font-family: 'Berlin Sans FB';
+    font-size: 5.5vh;
+    top: 80vh;
+    left: 45vw;
+    font-variant-ligatures: inherit;
+} */
+
+
+#yourScore {
+    position: absolute;
+    color:rgb(237, 19, 23);
+    font-family: 'Berlin Sans FB';
+    font-size: 5.5vh;
+    top:55vh;
+    left:59vw;
+    font-variant-ligatures:inherit;
+}
+#win {
+    animation-name: Win;
+    animation-duration: 2s;
+}
+
+  

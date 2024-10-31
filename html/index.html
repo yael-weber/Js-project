@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Rush Hour</title>
+    <link rel="stylesheet" type="text/css" href="../css/board.css">
+    <link rel="stylesheet" type="text/css" href="../css/outBourd.css">
+    <link rel="icon" type="image/png" href="../img/אייקון.png">
+
+</head>
+
+<body>
+    <div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+    <style>
+        #aaa {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 70%;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.786);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            /* justify-content: center; */
+            height: 100vh;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            z-index: 1;
+            /* padding: 20px; */
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            /* הוספת צללייה */
+            animation: slideIn 0.5s forwards;
+            /* אנימציה עבור הופעת הפופאפ */
+        }
+
+        .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: black;
+            /* צבע טקסט שחור */
+        }
+
+        .popup-bar {
+            height: 60px;
+            background-color: hwb(334 14% 0%);
+            width: 100%;
+        }
+
+
+        .popup-close:hover {
+            color: #888;
+        }
+
+        .popup-content p {
+            color: black;
+            /* צבע טקסט שחור */
+            padding: 2%;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translate(-50%, -150%);
+                /* מעביר את הפופאפ מעלה */
+            }
+
+            to {
+                transform: translate(-50%, -50%);
+                /* מציב את הפופאפ במרכז המסך */
+            }
+        }
+
+        .buttons-container {
+            margin: 0%;
+            position: fixed;
+            top: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .button {
+            margin: 1%;
+            width: 30%;
+            padding: auto;
+            position: relative;
+        }
+
+        .button:hover img {
+            transform: scale(1.1);
+        }
+
+        .button {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        #namePopup .popup-content button:hover {
+            background-color: hwb(334 14% 0%);
+        }
+
+        /* פופאפ לשלבים */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            z-index: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            /* הוספת צללייה */
+            animation: slideIn 0.5s forwards;
+            /* אנימציה עבור הופעת הפופאפ */
+        }
+
+        .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: black;
+            /* צבע טקסט שחור */
+        }
+
+        .popup-bar {
+            height: 60px;
+            /* גובה הפס */
+            background-color: hwb(334 14% 0%);
+            /* צבע וורוד */
+            width: 100%;
+            /* רוחב מלא */
+        }
+
+
+        .popup-close:hover {
+            color: #888;
+        }
+
+        .popup-content p {
+            color: black;
+            /* צבע טקסט שחור */
+            padding: 2%;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translate(-50%, -150%);
+                /* מעביר את הפופאפ מעלה */
+            }
+
+            to {
+                transform: translate(-50%, -50%);
+                /* מציב את הפופאפ במרכז המסך */
+            }
+        }
+
+        .popup .popup-bar {
+            height: 10px;
+            /* גובה הפס */
+            background-color: hwb(334 14% 0%);
+            /* צבע וורוד */
+            width: calc(100% - 40px);
+            /* רוחב מלא */
+            /* margin-left: 20px; */
+            /* מרווח משמאל */
+            /* margin-right: 20px; */
+            /* מרווח מימין */
+        }
+
+        .popup .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: black;
+            /* צבע טקסט שחור */
+        }
+
+        .popup .popup-close:hover {
+            color: #888;
+        }
+
+        .popup .popup-content p {
+            color: black;
+            /* צבע טקסט שחור */
+            margin: 0;
+            padding: 5px 0;
+        }
+
+        .popup .controls {
+            margin-top: 10px;
+        }
+
+        .popup-bar {
+            height: 60px;
+            /* גובה הפס */
+            background-color: hwb(334 14% 0%);
+            /* צבע וורוד */
+            width: 100%;
+            /* רוחב מלא */
+        }
+
+        .popup .controls .custom-level-button {
+            background-color: hwb(334 14% 0%);
+            /* צבע רקע */
+            color: black;
+            /* צבע טקסט */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .popup .controls .custom-level-button:hover {
+            background-color: hwb(334 14% 0%);
+            /* צבע רקע בהתרגשות */
+        }
+
+        .popup .controls .custom-level-button:disabled {
+            opacity: 0.5;
+            /* הדיסייבלד מקבל שקיפות */
+            cursor: not-allowed;
+            /* סמן העכבר משנה */
+        }
+
+        button {
+            position: relative;
+            background: #444;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: none;
+            letter-spacing: 0.1rem;
+            font-size: 1rem;
+            padding: 1rem 3rem;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            letter-spacing: 0.2rem;
+            padding: 1.1rem 3.1rem;
+            background: var(--clr);
+            color: var(--clr);
+            /* box-shadow: 0 0 35px var(--clr); */
+            animation: box 3s infinite;
+        }
+
+        button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        button i {
+            position: absolute;
+            inset: 0;
+            display: block;
+        }
+
+        button i::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 2px;
+            left: 80%;
+            top: -2px;
+            border: 2px solid var(--clr);
+            background: #272822;
+            transition: 0.2s;
+        }
+
+        button:hover i::before {
+            width: 15px;
+            left: 20%;
+            animation: move 3s infinite;
+        }
+
+        button i::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 2px;
+            left: 20%;
+            bottom: -2px;
+            border: 2px solid var(--clr);
+            background: #272822;
+            transition: 0.2s;
+        }
+
+        button:hover i::after {
+            width: 15px;
+            left: 80%;
+            animation: move 3s infinite;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes box {
+            0% {
+                box-shadow: #27272c;
+            }
+
+            50% {
+                box-shadow: 0 0 25px var(--clr);
+            }
+
+            100% {
+                box-shadow: #27272c;
+            }
+        }
+
+        .b {
+            margin: 0.5%;
+        }
+    </style>
+
+
+    <img id="aaa" src="../img/123666copy 2 (1) copy.jpg" alt="Rush Hour Image">
+    <!-- קישורים לכפתורים -->
+    <img class="b" src="../img/כפתורים/דף הבית.png" onclick="returnHome()" style="width: 7%; height: auto;">
+    <img class="b" src="../img/כפתורים/הוראות.png" onclick="togglePopup('instructions')"
+        style="width: 7%; height: auto;">
+    <img class="b" src="../img/כפתורים/שלבים.png" onclick="togglePopup('LevelPopup')" style="width: 7%; height: auto;">
+    <img class="b" src="../img/כפתורים/נצחון.png" onclick="openPopupC()" style="width: 7%; height: auto;">
+    <img id="exitArrow" src="../img/תמונה1.png" alt="redExit" style="position:fixed; top: 45%; left: 66%; width: 7%; height: auto;" class="flicker-animation">
+
+    <div id="instructions" class="popup" style="font-size: large">
+        <span class="popup-close" onclick="closePopup()">×</span>
+        <div class="popup-bar" style="width: 100%; height: 20%;">
+            <h1 style="text-align: center; color: white;">instructions:</h1>
+        </div> <!-- הפס הוורוד -->
+        <div class="popup-content">
+
+            <p id="1">The goal of the game is to get the red car<br>out of the parking lot</p>
+            <p id="2"> How to play:<br> at each stage you have to move the
+                <br>
+                horizontal cars up and down, and the vertical ones to the right and left
+                <br>by selecting the desired car and moving it with the arrows on the keyboard
+            </p>
+            <p id="3">You have to think wisely about how to move the cars
+                <br>to allow the red car to get out of the traffic.
+            </p>
+        </div>
+    </div>
+
+
+    <div id="C" class="popup">
+        <span class="popup-close" onclick="closePopup()">×</span>
+        <div class="popup-bar" style="width: 100%; height: 70px;">
+            <h1 style="text-align: center; color: white;">records:</h1>
+        </div>
+        <div class="popup-content">
+
+            <p id="one">🥇<br>
+            </p>
+            <p id="second">🥈<br>
+            </p>
+            <p id="three">🥉
+            </p>
+
+
+            <img src="../img/trophy (2).png" style="width: 35%; display: block; margin: 0 auto;">
+        </div>
+    </div>
+    <div class="levels-container">
+        <div class="current-level">
+            <div class="controls">
+
+                <div id="LevelPopup" class="popup">
+                    <span class="popup-close" onclick="closePopup()">×</span>
+                    <h1 style="text-align: center; color: rgb(29, 26, 26);">Choose level</h1>
+                    <div class="popup-content">
+                        <div class="controls">
+                            <button class="custom-level-button" id="level1" onclick="openLevel(1)"
+                                style="--clr:#39FF14"><span>level
+                                    1</span><i></i></button>
+                            <button class="custom-level-button" id="level2" onclick="openLevel(2)" disabled="true"
+                                style="--clr:#FF44CC"><span>level
+                                    2</span><i></i></button>
+                            <button class="custom-level-button" id="level3" onclick="openLevel(3)" disabled="true"
+                                style="--clr:#0FF0FC"><span>level
+                                    3</span><i></i></button>
+                            <button class="custom-level-button" id="level4" onclick="openLevel(4)" disabled="true"
+                                style="--clr:#FF44CC"><span>level
+                                    4</span><i></i></button>
+                            <button class="custom-level-button" id="level5" onclick="openLevel(5)" disabled="true"
+                                style="--clr:#8A2BE2"><span>level
+                                    5</span><i></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="currentLevelDisplay"></div>
+        <style>
+            #currentLevelDisplay {
+                position: fixed;
+                top: 10%;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                font-size: 2em;
+                color: white;
+            }
+        </style>
+        <script>
+            function openPopupC() {
+                closePopup();
+                const defaults = {
+                    spread: 360,
+                    ticks: 100,
+                    gravity: 0,
+                    decay: 0.94,
+                    startVelocity: 30,
+                };
+
+                confetti({
+                    ...defaults,
+                    particleCount: 1000,
+                    scalar: 2,
+                    shapes: ["emoji"],
+                    shapeOptions: {
+                        emoji: {
+                            value: ["🥇", "🏆"],
+                        },
+                    },
+                });
+
+                var popup = document.getElementById('C');
+                var overlay = document.getElementById('overlay');
+                if (popup.style.display === 'block') {
+                    popup.style.display = 'none';
+                    overlay.style.display = 'none';
+                } else {
+                    popup.style.display = 'block';
+                    overlay.style.display = 'block';
+                }
+            }
+            
+            function closePopupWin() {
+                document.getElementById("yourScore").innerHTML = '';
+                document.getElementById("darkbackgroung_youWin").style.display = "none";
+                togglePopup('LevelPopup');
+            }
+
+            function returnHome() {
+                window.location.href = "../homepage.html";
+            }
+
+            function togglePopup(id) {
+                closePopup();
+                var popup = document.getElementById(id);
+                var overlay = document.getElementById('overlay');
+                if (popup.style.display === 'block') {
+                    popup.style.display = 'none';
+                    overlay.style.display = 'none';
+                } else {
+                    popup.style.display = 'block';
+                    overlay.style.display = 'block';
+                }
+            }
+
+            function closePopup() {
+                var popups = document.querySelectorAll('.popup');
+                var overlay = document.getElementById('overlay');
+                popups.forEach(function (popup) {
+                    popup.style.display = 'none';
+                });
+                overlay.style.display = 'none';
+            }
+
+            function openLevel(level) {
+                window.location.href = window.location.href.replace(/\d(?!.*\d)/, level);
+            }
+
+            function handlePlayAgain() {
+                document.getElementById("darkbackgroung_youWin").style.display = "none";
+                togglePopup('LevelPopup');
+            }
+
+        </script>
+    </div>
+    <div><label id="timer">01:30</label></div>
+    <p id="thisLevel" style="text-align: center; font-size: x-large;">level:</p>
+    <div id="darkbackgroung_gameOver">
+        <div id="gameOver">
+            <img src="../img/game over.png" style="width:40vw;left:31vw;top:10vh;position:absolute;" />
+            <br />
+            <a href="../homepage.html"><img src="../img/אקסיט.png"
+                    style="width:10vw;left:40vw;top:73vh;position:absolute;" /></a>
+            <img onclick="location.reload()" src="../img/טריי הגן.png"
+                style="width:12vw;left:52vw;top:73vh;position:absolute;" />
+        </div>
+    </div>
+    <style>
+        #timer {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 2em;
+            color: white;
+        }
+    </style>
+
+    <div id="darkbackgroung_youWin">
+        <img src="../img/5238712 copy.png" id="win" style="width:40vw;left:31vw;top:10vh;position:absolute;" />
+        <label id="yourScore"></label>
+        <img onclick="handlePlayAgain()" src="../img/פלי הגן.png"
+            style="width:10vw;left:46vw;top:73vh;position:absolute;" />
+    </div>
+
+    <div class="main-container">
+        <div id="usernameDisplay"></div>
+        <div class="instructions-container">
+        </div>
+        <div class="game-container">
+            <div class="controls">
+                <div class="win-phrase"></div>
+                <div id="rush-hour"></div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/mainBoard.js" type="module"></script>
+    <script src="../js/main.js" type="module"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js">
+
+    </script>
+
+</body>
+
+</html>

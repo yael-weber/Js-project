@@ -1,0 +1,8 @@
+
+export class audio{
+
+     playWinningSound() {
+    const audio = new Audio('audio/mixkit-player-jumping-in-a-video-game-2043.wav');
+    audio.play();
+}
+}

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rush Hour</title>
+    <!-- <link rel="icon" href="./img/אייקון.png" type="Image/png"> -->
+
+    <link rel="icon" type="image/png" href="./img/אייקון.png">
+
+    <style>
+        font-face {
+            font-family: Clip;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Skranji', cursive;
+        }
+
+        .text {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            /* כדי שהטקסט יהיה מעל התמונה */
+            text-align: center;
+            /* למרכז טקסט על התמונה */
+            color: #ffe6ff;
+            /* צבע הטקסט */
+        }
+
+        .sign {
+            font-family: "Clip";
+            text-transform: uppercase;
+            font-size: 6em;
+            text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+                -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+                0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+            animation: shine 2s forwards, flicker 3s infinite;
+        }
+
+        img {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            /* z-index: -1; */
+        }
+
+        @keyframes blink {
+
+            0%,
+            22%,
+            36%,
+            75% {
+                color: #ffe6ff;
+                text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+                    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+                    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+            }
+
+            28%,
+            33% {
+                color: #ff65bd;
+                text-shadow: none;
+            }
+
+            82%,
+            97% {
+                color: #ff2483;
+                text-shadow: none;
+            }
+        }
+
+        .flicker {
+            animation: shine 2s forwards, blink 3s 2s infinite;
+        }
+
+        .fast-flicker {
+            animation: shine 2s forwards, blink 10s 1s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                color: #6b1839;
+                text-shadow: none;
+            }
+
+            100% {
+                color: #ffe6ff;
+                text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+                    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+                    0 -0.5rem 2rem hwb(334 14% 0%), 0 0.5rem 3rem #ff2483;
+            }
+        }
+
+        @keyframes flicker {
+            from {
+                opacity: 1;
+            }
+
+            4% {
+                opacity: 0.9;
+            }
+
+            6% {
+                opacity: 0.85;
+            }
+
+            8% {
+                opacity: 0.95;
+            }
+
+            10% {
+                opacity: 0.9;
+            }
+
+            11% {
+                opacity: 0.922;
+            }
+
+            12% {
+                opacity: 0.9;
+            }
+
+            14% {
+                opacity: 0.95;
+            }
+
+            16% {
+                opacity: 0.98;
+            }
+
+            17% {
+                opacity: 0.9;
+            }
+
+            19% {
+                opacity: 0.93;
+            }
+
+            20% {
+                opacity: 0.99;
+            }
+
+            24% {
+                opacity: 1;
+            }
+
+            26% {
+                opacity: 0.94;
+            }
+
+            28% {
+                opacity: 0.98;
+            }
+
+            37% {
+                opacity: 0.93;
+            }
+
+            38% {
+                opacity: 0.5;
+            }
+
+            39% {
+                opacity: 0.96;
+            }
+
+            42% {
+                opacity: 1;
+            }
+
+            44% {
+                opacity: 0.97;
+            }
+
+            46% {
+                opacity: 0.94;
+            }
+
+            56% {
+                opacity: 0.9;
+            }
+
+            58% {
+                opacity: 0.9;
+            }
+
+            60% {
+                opacity: 0.99;
+            }
+
+            68% {
+                opacity: 1;
+            }
+
+            70% {
+                opacity: 0.9;
+            }
+
+            72% {
+                opacity: 0.95;
+            }
+
+            93% {
+                opacity: 0.93;
+            }
+
+            95% {
+                opacity: 0.95;
+            }
+
+            97% {
+                opacity: 0.93;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            /* justify-content: center; */
+            height: 100vh;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.518);
+            z-index: 1;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            z-index: 1;
+            /* padding: 20px; */
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            /* הוספת צללייה */
+            animation: slideIn 0.5s forwards;
+            /* אנימציה עבור הופעת הפופאפ */
+        }
+
+        .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: black;
+            /* צבע טקסט שחור */
+        }
+
+        .popup-bar {
+            height: 60px;
+            /* גובה הפס */
+            background-color: hwb(334 14% 0%);
+            /* צבע וורוד */
+            width: 100%;
+            /* רוחב מלא */
+        }
+
+
+        .popup-close:hover {
+            color: #888;
+        }
+
+        .popup-content p {
+            color: black;
+            /* צבע טקסט שחור */
+            padding: 2%;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translate(-50%, -150%);
+                /* מעביר את הפופאפ מעלה */
+            }
+
+            to {
+                transform: translate(-50%, -50%);
+                /* מציב את הפופאפ במרכז המסך */
+            }
+        }
+
+        .buttons-container {
+            margin: 0%;
+            position: fixed;
+            top: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .button {
+            margin: 1%;
+            width: 30%;
+            padding: auto;
+            position: relative;
+        }
+
+        .button:hover img {
+            transform: scale(1.1);
+        }
+
+        .button {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+
+        /* הכנסת שם משתמש-פופאפ */
+        #namePopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            z-index: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            /* הוספת צללייה */
+            animation: slideIn 0.5s forwards;
+            /* אנימציה עבור הופעת הפופאפ */
+            text-align: center;
+
+        }
+
+        #namePopup .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: black;
+        }
+
+        #namePopup .popup-close:hover {
+            color: #888;
+        }
+
+        #namePopup .popup-content p {
+
+            color: black;
+            margin: 0;
+            padding: 5px 0;
+        }
+
+        #namePopup .popup-content input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        #namePopup .popup-content button {
+            text-align: center;
+            background-color: pink;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #namePopup .popup-content button:hover {
+            background-color: hwb(334 14% 0%);
+        }
+
+        /* פופאפ לשלבים */
+        #levelPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            z-index: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            /* הוספת צללייה */
+            animation: slideIn 0.5s forwards;
+            /* אנימציה עבור הופעת הפופאפ */
+        }
+
+        #levelPopup .popup-bar {
+            height: 10px;
+            /* גובה הפס */
+            background-color: hwb(334 14% 0%);
+            /* צבע וורוד */
+            width: calc(100% - 40px);
+            /* רוחב מלא */
+            margin-left: 20px;
+            /* מרווח משמאל */
+            margin-right: 20px;
+            /* מרווח מימין */
+        }
+
+        #levelPopup .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: black;
+            /* צבע טקסט שחור */
+        }
+
+        #levelPopup .popup-close:hover {
+            color: #888;
+        }
+
+        #levelPopup .popup-content p {
+            color: black;
+            /* צבע טקסט שחור */
+            margin: 0;
+            padding: 5px 0;
+        }
+
+        #levelPopup .controls {
+            margin-top: 10px;
+        }
+
+        #levelPopup .controls .level {
+            background-color: hwb(334 14% 0%);
+            /* צבע רקע */
+            color: black;
+            /* צבע טקסט */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #levelPopup .controls .level:hover {
+            background-color: hwb(334 14% 0%);
+            /* צבע רקע בהתרגשות */
+        }
+
+        #levelPopup .controls .level:disabled {
+            opacity: 0.5;
+            /* הדיסייבלד מקבל שקיפות */
+            cursor: not-allowed;
+            /* סמן העכבר משנה */
+        }
+
+
+        button {
+            position: relative;
+            background: #444;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: none;
+            letter-spacing: 0.1rem;
+            font-size: 1rem;
+            padding: 1rem 3rem;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            letter-spacing: 0.2rem;
+            padding: 1.1rem 3.1rem;
+            background: var(--clr);
+            color: var(--clr);
+            /* box-shadow: 0 0 35px var(--clr); */
+            animation: box 3s infinite;
+        }
+
+        /* button::before {
+            content: "";
+            position: absolute;
+            inset: 2px;
+            background: #c2e901;
+        } */
+
+        button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        button i {
+            position: absolute;
+            inset: 0;
+            display: block;
+        }
+
+        button i::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 2px;
+            left: 80%;
+            top: -2px;
+            border: 2px solid var(--clr);
+            background: #272822;
+            transition: 0.2s;
+        }
+
+        button:hover i::before {
+            width: 15px;
+            left: 20%;
+            animation: move 3s infinite;
+        }
+
+        button i::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 2px;
+            left: 20%;
+            bottom: -2px;
+            border: 2px solid var(--clr);
+            background: #272822;
+            transition: 0.2s;
+        }
+
+        button:hover i::after {
+            width: 15px;
+            left: 80%;
+            animation: move 3s infinite;
+
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes box {
+            0% {
+                box-shadow: #27272c;
+            }
+
+            50% {
+                box-shadow: 0 0 25px var(--clr);
+            }
+
+            100% {
+                box-shadow: #27272c;
+            }
+        }
+
+        @keyframes moveRightLeft {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes moveLeftRight {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .fast-flicker img.button:nth-child(1) {
+            animation: moveRightLeft 3s ease-in-out infinite;
+        }
+
+        .fast-flicker img.button:nth-child(2) {
+            animation: moveLeftRight 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="text">
+            <div class="sign">
+                <span class="fast-flicker">RUSH</span>⏱️<span class="flicker">HOUR</span>
+            </div>
+        </div>
+        <img src="./img/רקע מס 1 (1).jpg" alt="Rush Hour Image">
+        <div class="container">
+            <div class="sign">
+                <span class="fast-flicker">
+                    <div class="buttons-container">
+                        <img src="./img/car copy (3).png" alt="Button Image 1" class="button"
+                            onclick="togglePopup('namePopup')" style="cursor: pointer;">
+                        <img src="./img/HBJEW (1).png" alt="Button Image 2" class="button"
+                            onclick="togglePopup('instructions')" style="cursor: pointer;">
+                    </div>
+                </span>
+            </div>
+        </div>
+
+        <div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+        <div id="namePopup" class="popup">
+            <!-- <div class="popup-bar"></div> הפס הוורוד -->
+            <span class="popup-close" onclick="closePopup()">×</span>
+            <div class="popup-content">
+                <p>Enter your first name:</p>
+                <input type="text" id="userName">
+                <button onclick="saveUserName()">Save</button>
+            </div>
+        </div>
+
+
+        <div id="instructions" class="popup">
+            <span class="popup-close" onclick="closePopup()">×</span>
+            <div class="popup-bar">
+                <h1 style="text-align: center; color: white;">instructions:</h1>
+            </div> <!-- הפס הוורוד -->
+            <div class="popup-content">
+
+                <p id="1">The goal of the game is to get the red car<br>out of the parking lot</p>
+                <p id="2"> How to play:<br> at each stage you have to move the
+                    <br>
+                    horizontal cars up and down, and the vertical ones to the right and left
+                    <br>by selecting the desired car and moving it with the arrows on the keyboard
+                </p>
+                <p id="3">You have to think wisely about how to move the cars
+                    <br>to allow the red car to get out of the traffic.
+                </p>
+            </div>
+        </div>
+
+
+        <div id="levelPopup" class="popup">
+            <span class="popup-close" onclick="closePopup()">×</span>
+            <div class="popup-content">
+                <p>Choose a level:</p>
+                <div class="controls">
+                    <button class="level" id="level1" onclick="openLevel(1)" style="--clr:#39FF14"><span>level
+                            1</span><i></i></button>
+                    <button class="level" id="level2" onclick="openLevel(2)" disabled="true"
+                        style="--clr:#FF44CC"><span>level 2</span><i></i></button>
+                    <button class="level" id="level3" onclick="openLevel(3)" disabled="true"
+                        style="--clr:#0FF0FC"><span>level 3</span><i></i></button>
+                    <button class="level" id="level4" onclick="openLevel(4)" disabled="true"
+                        style="--clr:#FF44CC"><span>level 4</span><i></i></button>
+                    <button class="level" id="level5" onclick="openLevel(5)" disabled="true"
+                        style="--clr:#8A2BE2"><span>level 5</span><i></i></button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function togglePopup(id) {
+                closePopup();
+                var popup = document.getElementById(id);
+                var overlay = document.getElementById('overlay');
+                if (popup.style.display === 'block') {
+                    popup.style.display = 'none';
+                    overlay.style.display = 'none';
+                } else {
+                    popup.style.display = 'block';
+                    overlay.style.display = 'block';
+                }
+            }
+
+            function closePopup() {
+                var popups = document.querySelectorAll('.popup');
+                var overlay = document.getElementById('overlay');
+                popups.forEach(function (popup) {
+                    popup.style.display = 'none';
+                });
+                overlay.style.display = 'none';
+            }
+
+            function saveUserName() {
+                var userName = document.getElementById('userName').value;
+                localStorage.setItem('userName', userName);
+                let usersScoresList = JSON.parse(localStorage.getItem('usersScores')) || [];
+                localStorage.setItem('maxLevel', 1);
+                for (let index = 0; index < usersScoresList.length; index++) {
+                    if (usersScoresList[index].username === userName) {
+                        localStorage.setItem('maxLevel', usersScoresList[index].level + 1);
+                        break;
+                    }
+                }
+                for (let index = 1; index < localStorage.getItem('maxLevel'); index++) {
+                    document.getElementById("level" + (index + 1)).disabled = false;
+                }
+                togglePopup('levelPopup');
+            }
+
+            function openLevel(level) {
+                window.location.href = "./html/index.html?level=" + level;
+            }
+
+        </script>
+</body>
+
+</html>
